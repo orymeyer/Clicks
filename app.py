@@ -17,7 +17,8 @@ def generateLink():
 @app.route('/link/click/<link>')
 def recordClick(link):
     IP = request.remote_addr
-    recordLinkClick(link,IP)
+    print request.headers["x-forwarded-for"];
+    #recordLinkClick(link,IP)
     return render_template('page.html')
 
 @app.route('/api/link/<link>')
