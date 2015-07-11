@@ -39,7 +39,7 @@ def showStatsPage(link):
     
 @app.route('update/<link>',methods=['POST'])
 def updatelink(id,details):
-     updateLinks(id,details)
+     update(id,details)
      return jsonify({'stats':'success'}), 200
 
 @app.route('/pic')
