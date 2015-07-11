@@ -37,7 +37,7 @@ def showStatsPage(link):
     
     return render_template('stats.html',id=id,data=lstats)
     
-@app.route('update/<link>',methods=['POST'])
+@app.route('/update/<link>',methods=['POST'])
 def updatelink(id,details):
      update(id,details)
      return jsonify({'stats':'success'}), 200
