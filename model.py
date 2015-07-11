@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import time,datetime,os
 
 client = MongoClient(os.getenv("MONGO_URL"))
-db = client.IPTrap
+db = client.sandbox
 cn = db.records
 
 
