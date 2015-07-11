@@ -20,6 +20,14 @@ def recordLinkClick(id,ip):
     res["clicks"][str(now)]=ip
     cn.save(res)
 
+def updateLinks(id,details)
+    res = cn.find_one({"lid":id})
+    if res.has_key('details'):
+        pass
+    else:
+        res["details"]=details
+        cn.save(res)
+
 def showLinkStats(id):
     return cn.find_one({"lid":id})
 

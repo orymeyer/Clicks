@@ -17,6 +17,7 @@ def generateLink():
 @app.route('/link/click/<link>')
 def recordClick(link):
     #IP = request.remote_addr
+    print request.user_agent.string
     IP =  str(request.headers["x-forwarded-for"]);
     recordLinkClick(link,IP)
     return render_template('page.html')
@@ -33,8 +34,13 @@ def showStatsPage(link):
     lstats =  showLinkStats(link)
     lstats["_id"] = None
     id = lstats["lid"]
-
+    
     return render_template('stats.html',id=id,data=lstats)
+    
+@app.route('update/<link>',methods=['POST'])
+def updatelink(id,details):
+     updateLinks(id,details)
+     return jsonify({'stats':'success'}), 200
 
 @app.route('/pic')
 def showPic():
