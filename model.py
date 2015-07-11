@@ -11,10 +11,12 @@ def createTrap(id):
     now = time.time()
     cn.insert({"time_stamp_created":now,"lid":id,"clicked":False,"clicked_number":0,"clicks":{}})
 
-def recordLinkClick(id,ip):
+def recordLinkClick(id,ip,ua,ref):
     ts = time.time()
     now = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     res = cn.find_one({"lid":id})
+    res["useragent"] = ua
+    res["ref"]= ref
     res["clicked"]=True
     res["clicked_number"]+=1
     res["clicks"][str(now)]=ip
