@@ -16,11 +16,10 @@ def generateLink():
 
 @app.route('/link/click/<link>')
 def recordClick(link):
-    #IP = request.remote_addr
     UA =  request.user_agent.string
     REF = request.headers.get("Referer")
-    IP =  str(request.headers["x-forwarded-for"]);
-    recordLinkClick(link,IP,UA,REF)
+    provided_ips = request.access_route #this one always works be remote_addr or x-forwarded-for
+    recordLinkClick(link,provided_ips,UA,REF)
     return render_template('page.html')
 
 @app.route('/api/link/<link>')
@@ -35,9 +34,9 @@ def showStatsPage(link):
     lstats =  showLinkStats(link)
     lstats["_id"] = None
     id = lstats["lid"]
-    
+
     return render_template('stats.html',id=id,data=lstats)
-    
+
 @app.route('/update/<link>',methods=['POST'])
 def updatelink(link):
      details = request.args['details']
