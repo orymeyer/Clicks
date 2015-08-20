@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import time,datetime,os
 
-client = MongoClient('mongodb://207.46.227.159:27017/')
+client = MongoClient('mongodb://127.0.0.1:27017/')
 db = client.sandbox
 cn = db.records
 
