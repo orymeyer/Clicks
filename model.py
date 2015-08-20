@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import time,datetime,os
 
-client = MongoClient(os.getenv("MONGO_URL"))
+client = MongoClient('mongodb://207.46.227.159:27017/')
 db = client.sandbox
 cn = db.records
 
@@ -23,7 +23,7 @@ def recordLinkClick(id,ip,ua,ref):
     res["clicks"][str(now)]=ip
     cn.save(res)
 '''
-    
+
 
 def recordLinkClick(id,ip,ua,ref):
     ts = time.time()
@@ -45,4 +45,3 @@ def update(id,details):
 
 def showLinkStats(id):
     return cn.find_one({"lid":id})
-
