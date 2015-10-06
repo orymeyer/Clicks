@@ -1,5 +1,4 @@
-pymongo==2.7.2
+pymongo==2.8
 flask
-gevent
 gunicorn
-
+Jinja2
