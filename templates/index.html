@@ -22,10 +22,10 @@
 	<script>vex.defaultOptions.className = 'vex-theme-wireframe';</script>
 	<link rel="stylesheet" href="../static/css/vex.css" />
 	<link rel="stylesheet" href="../static/css/vex-theme-wireframe.css" />
-	
+	<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	
   </head>
-  <body>
+  <body background="../static/img/footer_lodyas.png">
 
     <div class="container-fluid">
 	<div class="row">
@@ -35,18 +35,18 @@
 				</div>
 				<div class="col-md-8">
 				<div class="page-header">
-						<h1>
+						<h1 class="white">
 							Clicks <small>Shorten Links Easily</small>
 						</h1>
 					</div>
-					<form id="vcenter" class="form-horizontal" action="javascript:generate();" method="post">
+					<form  class="form-horizontal" action="javascript:generate();" method="post">
 <fieldset>
 
 
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="URL" >URL</label>  
+  <label class="col-md-4 control-label white" for="URL" >URL</label>  
   <div class="col-md-8">
   <input id="URL" name="URL" type="text" placeholder="Paste The Big URL here (http://...)" class="form-control input-md" required="">
     
@@ -55,7 +55,7 @@
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="SURL">Short URL</label>  
+  <label class="col-md-4 control-label white" for="SURL">Short URL</label>  
   <div class="col-md-6">
   <input id="SURL" name="SURL" type="text" placeholder="" class="form-control input-md" readonly>
     
