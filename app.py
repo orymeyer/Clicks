@@ -19,24 +19,16 @@ def generateLink():
 def recordClick(sURL):
     UA =  request.user_agent.string
     REF = request.headers.get("Referer")
-    provided_ips = request.access_route #this one always works be remote_addr or x-forwarded-for
+    provided_ips = request.access_route[0] #this one always works be remote_addr or x-forwarded-for
     bURL = recordLinkClick(sURL,provided_ips,UA,REF)
     return redirect(bURL,code=302)
 
-@app.route('/api/link/<link>')
-def showStats(link):
-    lstats =  showLinkStats(link)
-    lstats["_id"] = None
-    return jsonify({'stats':lstats}), 200
 
 
-@app.route('/link/<link>')
-def showStatsPage(link):
-    lstats =  showLinkStats(link)
-    lstats["_id"] = None
-    id = lstats["lid"]
-
-    return render_template('stats.html',id=id,data=lstats)
+@app.route('/stats')
+def showStatsPage():
+    kv,num= showStats()
+    return render_template('stats.html', kv=kv,num =num)
 
 @app.route('/update/<link>',methods=['POST'])
 def updatelink(link):
@@ -44,9 +36,20 @@ def updatelink(link):
      update(link,details)
      return jsonify({'stats':'success'}), 200
 
+
+
+@app.route('/stats/<link>')
+def showLinkStats(link):
+    lstats =  showLStats(link)
+    if lstats is None:
+        return "No Stats yet"
+    id = lstats["sURL"]
+    #return jsonify(lstats)
+    return render_template('linkStat.html',id=id,data=lstats)
+
+
 @app.route('/pic')
 def showPic():
-
     return render_template('page.html')
 
 

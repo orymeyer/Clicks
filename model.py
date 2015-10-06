@@ -1,7 +1,9 @@
 from pymongo import MongoClient
 import time,datetime,os
 
-client = MongoClient('mongodb://127.0.0.1:27017/')
+
+
+client = MongoClient(os.environ["MONGO_URL"])
 db = client.sandbox
 cn = db.records
 
@@ -44,5 +46,19 @@ def update(id,details):
         res["details"]=details
         cn.save(res)
 
-def showLinkStats(id):
-    return cn.find_one({"sURL":id})
+def showStats():
+    kv = {}
+    num = cn.find().count()
+    data =  cn.find(limit=10)
+    for links in data:
+        kv[links["bURL"]] = links["sURL"]
+    return kv,num
+
+def showLStats(id):
+    res =  cn.find_one({"sURL":id})
+    if res is None:
+        return None
+    res["_id"] = None
+    #res["time_stamp_created"]= None
+    return res
+
