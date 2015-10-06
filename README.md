@@ -1,2 +1,2 @@
 # Clicks
-Generate random links and capture IP address,timestamps of clicks on that link.
+Shorten Links and Track various Statistics regarding them.Work in Progress.
