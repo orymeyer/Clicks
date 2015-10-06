@@ -7,9 +7,9 @@ cn = db.records
 
 
 
-def createTrap(id):
+def createLink(bURL,id):
     now = time.time()
-    cn.insert({"time_stamp_created":now,"lid":id,"clicked":False,"clicked_number":0,"clicks":{}})
+    cn.insert({"time_stamp_created":now,"sURL":id,"bURL":bURL,"clicked":False,"clicked_number":0,"clicks":{}})
 
 '''
 def recordLinkClick(id,ip,ua,ref):
@@ -25,18 +25,19 @@ def recordLinkClick(id,ip,ua,ref):
 '''
 
 
-def recordLinkClick(id,ip,ua,ref):
+def recordLinkClick(sURL,ip,ua,ref):
     ts = time.time()
     now = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    res = cn.find_one({"lid":id})
+    res = cn.find_one({"sURL":sURL})
     res["clicked"]=True
     res["clicked_number"]+=1
     res["clicks"][str(now)]={"ip":ip,"ua":ua,"ref":ref}
     cn.save(res)
+    return res["bURL"]
 
 
 def update(id,details):
-    res = cn.find_one({"lid":id})
+    res = cn.find_one({"sURL":id})
     if res.has_key('details'):
         pass
     else:
@@ -44,4 +45,4 @@ def update(id,details):
         cn.save(res)
 
 def showLinkStats(id):
-    return cn.find_one({"lid":id})
+    return cn.find_one({"sURL":id})

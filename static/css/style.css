@@ -1,0 +1,7 @@
+# Empty CSS file for your own CSS
+
+#vcenter {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}

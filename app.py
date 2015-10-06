@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request,render_template,send_file
+from flask import Flask,jsonify,request,render_template,send_file,redirect
 from model import *
 import random,string
 app = Flask(__name__)
@@ -8,19 +8,20 @@ def getIP():
     return render_template('index.html')
 
 
-@app.route('/link/generate')
+@app.route('/link/generate',methods=['POST'])
 def generateLink():
+    bURL = request.form['URL']
     linkID = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
-    createTrap(linkID)
+    createLink(bURL,linkID)
     return jsonify({'id': linkID}), 200
 
-@app.route('/link/click/<link>')
-def recordClick(link):
+@app.route('/<sURL>')
+def recordClick(sURL):
     UA =  request.user_agent.string
     REF = request.headers.get("Referer")
     provided_ips = request.access_route #this one always works be remote_addr or x-forwarded-for
-    recordLinkClick(link,provided_ips,UA,REF)
-    return render_template('page.html')
+    bURL = recordLinkClick(sURL,provided_ips,UA,REF)
+    return redirect(bURL,code=302)
 
 @app.route('/api/link/<link>')
 def showStats(link):
