@@ -3,15 +3,15 @@ import time,datetime,os
 
 
 
-client = MongoClient(os.environ["MONGO_URL"])
+client = MongoClient(os.getenv("MONGO_URL"))
 db = client.sandbox
 cn = db.records
 
 
 
-def createLink(bURL,id):
+def createLink(bURL,id,userName):
     now = time.time()
-    cn.insert({"time_stamp_created":now,"sURL":id,"bURL":bURL,"clicked":False,"clicked_number":0,"clicks":{}})
+    cn.insert({"time_stamp_created":now,"sURL":id,"bURL":bURL,"clicked":False,"userName":userName,"clicked_number":0,"clicks":{}})
 
 '''
 def recordLinkClick(id,ip,ua,ref):
@@ -46,10 +46,10 @@ def update(id,details):
         res["details"]=details
         cn.save(res)
 
-def showStats():
+def showStats(userName):
     kv = {}
-    num = cn.find().count()
-    data =  cn.find(limit=10)
+    num = cn.find({"userName":userName}).count()
+    data =  cn.find({"userName":userName},limit=10)
     for links in data:
         kv[links["bURL"]] = links["sURL"]
     return kv,num

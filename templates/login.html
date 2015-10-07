@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to Clicks!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+	
+	
+	<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/styles_login.css" rel="stylesheet">
+	
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  
+  
+	<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/js/scripts.js"></script>
+	<script type="text/javascript" src="../static/js/app.js"></script>
+    
+    <script src="../static/sweet-alert.js"></script>
+    <link rel="stylesheet" href="../static/sweet-alert.css">
+	
+</head>
+
+<body background="../static/img/footer_lodyas.png">
+<div class="container">
+
+
+<div class="container">
+<div class="row clearfix">
+		<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-2 column">
+				</div>
+				<div class="col-md-8 column">
+					<h1 class="text-center" style="color:white">
+						Welcome to Clicks
+					</h1>
+					<div class="page-header">
+						<h1>
+							
+						</h1>
+					</div>
+				</div>
+				<div class="col-md-2 column">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!---END HEADER-->
+    	<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-login">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-6">
+								<a href="#" class="active" id="login-form-link">Login</a>
+							</div>
+							<div class="col-xs-6">
+								<a href="#" id="register-form-link">Register</a>
+							</div>
+						</div>
+						<hr>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<form id="login-form" action="javascript:login();" name="loginform" method="post" role="form" style="display: block;">
+									<div class="form-group">
+										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+									</div>
+									<div class="form-group text-center">
+										<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+										<label for="remember"> Remember Me</label>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="text-center">
+													<a href="http://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+								<form id="register-form" name="registerform" action="javascript:Register();" method="post" role="form" style="display: none;">
+									<div class="form-group">
+										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+									</div>
+									<div class="form-group">
+										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+									</div>
+									<div class="form-group">
+										<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+    <script type="text/javascript">
+
+function login(){
+
+$.post("/login",
+    {
+        username: $('#login-form #username').val().toString(),
+        password: $('#login-form #password').val().toString()
+
+
+    },function(data){
+    console.log(data["status"])
+    if(data["status"]=="LoggedIN")
+    {
+     swal({
+                      title: "Success!",
+                      text: "You are now logged In!",
+                      type: "success"},function(){
+					  window.location= "/"
+					  })
+
+
+
+    }
+    else
+    {
+    swal({
+                      title: "Oops!",
+                      text: "Wrong credentials",
+                      type: "error"})
+
+
+
+    }
+
+    });
+
+
+
+}
+
+
+/*
+ function findUser()
+{
+    $.post("checkUser",
+    {
+        name: $('#register-form #username').val().toString()
+       
+        
+    },
+    function(data){
+        console.log(data["present"]);
+        if (data["present"] == false){
+            console.log("Registering...");
+            Register()
+            
+        }
+        else
+        {
+            swal({
+                      title: "Oops!",
+                      text: "Looks like that name has already been taken! Try a different one.",
+                      type: "warning"})
+                  
+        
+        }
+    });
+}
+
+function Register(){
+   document.registerform.action = "addUser";
+   document.registerform.submit();
+   //swal("Good job!", "You have Registered Successfully!", "success")
+    }
+
+ */       
+function Register(){
+    
+     $.post("register",
+    {
+        username: $('#register-form #username').val().toString(),
+        email: $("#register-form #email").val().toString(),
+        password: $("#register-form #password").val().toString()
+    },
+    function(data){
+        console.log(data["status"])
+        if (data["status"] == "Success"){
+            swal("Success", "You have Registered Successfully!", "success")
+        }
+        if(data["status"] == "Failed")
+              swal({
+                      title: "Oops!",
+                      text: "Looks like that name has already been taken! Try a different one.",
+                      type: "warning"})
+
+     });
+}        
+        
+    </script>
+</html>
