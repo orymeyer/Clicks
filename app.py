@@ -7,7 +7,7 @@ from flask.ext.bcrypt import Bcrypt
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.config.from_object(__name__)
-app.secret_key = os.getenv("SECRET")
+app.secret_key =os.getenv("SECRET")
 
 
 @app.route('/')
@@ -27,7 +27,7 @@ def generateLink():
     linkID ='l/' + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
     username = session['userName']
     createLink(bURL,linkID,username)
-    return jsonify({'id': linkID}), 200
+    return jsonify({"status":"Success",'id': linkID}), 200
 
 @app.route('/l/<sURL>')
 def recordClick(sURL):
@@ -98,7 +98,7 @@ def login():
     userPHash = returnPHash(username)
     if userPHash is False:
         return jsonify(status="AuthFailed")
-    print userPHash.encode('utf-8'), password
+    #print userPHash.encode('utf-8'), password
     if bcrypt.check_password_hash(userPHash.encode('utf-8'), password):
         session["loggedIN"]=True
         session["userName"]=username
@@ -116,8 +116,8 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
 
-
 '''
+
 if __name__ =='__main__':
     app.run(debug=True)
 '''
