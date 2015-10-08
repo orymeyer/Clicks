@@ -2,4 +2,4 @@ languages:
   JavaScript: true
   Python: true
 exclude_paths:
-- "static/sweet-alert.js"
+ - "static/sweet-alert.js"
