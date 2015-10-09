@@ -56,7 +56,7 @@ class CicksTestCase(unittest.TestCase):
     def test_pass_change(self):
         rv = self.login('orymeyer','password')
         rv = self.passChange('password','isolation')
-        rv = self.get('/accounts')
+        rv = self.app.get('/accounts')
         assert 'success' in rv.data
         self.app.passChange('isolation','password')
 
