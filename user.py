@@ -24,3 +24,20 @@ def returnPHash(user):
     else:
         return False #no match
 
+def removeUser(userName):
+    res = ucn.find_one({"userName":userName})
+    ucn.remove(res)
+    return True
+
+def updateUser(username,newPassword):
+    res = ucn.find_one({"userName":username})
+    res["pass"]= newPassword
+    ucn.save(res)
+    return True
+
+def updateEmail(username,nemail):
+    res = ucn.find_one({"userName":username})
+    res["email"] = nemail
+    ucn.save(res)
+    return True
+

@@ -10,12 +10,17 @@ app.config.from_object(__name__)
 app.secret_key =os.getenv("SECRET")
 
 
+def checkLoggedIN():
+    if not session.get('userName'):
+        return redirect(url_for('welcomePage'))
+    else:
+        return session["userName"]
+
+
 @app.route('/')
 def getIndexPage():
-    if not session.get('userName'):
-
-        return redirect(url_for('welcomePage'))
-    return render_template('index.html')
+    username = checkLoggedIN()
+    return render_template('index.html',userName=username)
 
 @app.route('/welcome')
 def welcomePage():
@@ -41,8 +46,7 @@ def recordClick(sURL):
 
 @app.route('/stats')
 def showStatsPage():
-    if not session.get('userName'):
-        return redirect(url_for('welcomePage'))
+    checkLoggedIN()
     userName = session["userName"]
     kv,num= showStats(userName)
     return render_template('stats.html', kv=kv,num =num)
@@ -57,14 +61,31 @@ def updatelink(link):
 
 @app.route('/stats/l/<link>')
 def showLinkStats(link):
-    if not session.get('userName'):
-        return redirect(url_for('welcomePage'))
+    checkLoggedIN()
     lstats =  showLStats(link)
     if lstats is None:
         return "No Stats yet"
     id = lstats["sURL"]
     #return jsonify(lstats)
     return render_template('linkStat.html',id=id,data=lstats)
+
+
+
+@app.route('/deleteAccount')
+def deleteAccount():
+    userName = checkLoggedIN()
+    if removeUser(userName):
+        return jsonify(status="Success")
+    else:
+        return jsonify(status="Failed")
+
+@app.route('/delete/sURL')
+def delete(sURL):
+    username = checkLoggedIN()
+    if removesURL(sURL,userName):
+        return jsonify(status="Success")
+    else:
+        return jsonify(status="Failed")
 
 
 @app.route('/pic')
@@ -110,6 +131,46 @@ def login():
 def logout():
     session.pop('userName',None)
     session["loggedIN"]=False
+    return redirect(url_for('welcomePage'))
+
+@app.route('/page')
+def page():
+    return render_template('page.html')
+
+@app.route('/accounts')
+def settings():
+    return render_template('accounts.html')
+
+
+@app.route('/updateAccount', methods = ['POST'])
+def update():
+    username = checkLoggedIN()
+
+    password = None
+
+
+    newPassword = request.form['newPassword']
+    oldPassword =  request.form['oldPassword']
+    userPHash = returnPHash(username)
+
+    if bcrypt.check_password_hash(userPHash.encode('utf-8'),oldPassword):
+        newPassword = bcrypt.generate_password_hash(newPassword.encode('utf-8'))
+        updateUser(username,newPassword)
+        return jsonify(status="Success")
+    else:
+        return jsonify(status="Failed")
+
+
+
+
+@app.route('/updateEmail', methods = ['POST'])
+def updateEmail():
+    username = checkLoggedIN()
+    email = request.form['email']
+    if updateEmail(username,email):
+        return jsonify(status="Success")
+    else:
+        return jsonify(status="Failed")
 
 
 if __name__ == '__main__':
@@ -120,4 +181,5 @@ if __name__ == '__main__':
 
 if __name__ =='__main__':
     app.run(debug=True)
+
 '''

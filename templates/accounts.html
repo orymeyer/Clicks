@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to Clicks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+	<!--PE-->
+    <script src="../static/sweet-alert.js"></script>
+    <link rel="stylesheet" href="../static/sweet-alert.css">
+	<!--END PE-->
+	
+	<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../static/css/style.css" rel="stylesheet">
+
+ 
+  <link rel="shortcut icon" href="img/favicon.png">
+  
+	<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/js/scripts.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+</head>
+
+<body background="../static/img/footer_lodyas.png">
+<div class="container-fluid">
+<!--navbar starts-->
+	
+	<div class="row">
+		<!--<div class="col-md-12">-->
+			<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+				<div class="navbar-header">
+					<img src="../static/img/mouse_vectorized.png"/>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+
+					</button> <a class="navbar-brand icon-mouse" href="#"></a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					
+					
+					<ul class="nav navbar-nav navbar-right">
+						
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hello, {{userName}}<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="/stats">Stats</a>
+								</li>
+								<li>
+									<a href="/accounts">Account</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="/logout">Logout</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				
+			</nav>
+		<!--</div>-->
+	</div>
+</div>
+	
+	
+	<!---->
+	
+	
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+			<form class="form-horizontal white" action="javascript:updateEmail();" method="post">
+<fieldset>
+
+<!-- Form Name -->
+<legend class="white text-center">Accounts</legend>
+
+<!-- Text input-->
+<div class="form-group ">
+  <label class="col-md-4 control-label" for="email">Email</label>  
+  <div class="col-md-6">
+  <input id="email" name="email" type="text" placeholder="Set new Email address" class="form-control input-md">
+    
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="save"></label>
+  <div class="col-md-4">
+    <button id="save" name="save" class="btn btn-primary" >Save</button>
+  </div>
+</div>
+</form>
+<hr>
+
+
+<form class="form-horizontal white" action="javascript:updatePassword();" method="post">
+<!-- Password input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="cpass">Current Password</label>
+  <div class="col-md-6">
+    <input id="cpass" name="cpass" type="password" placeholder="Your Current Password" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<!-- Password input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="cpassword">Password</label>
+  <div class="col-md-6">
+    <input id="cpassword" name="cpassword" type="password" placeholder="Set New Password" class="form-control input-md">
+    
+  </div>
+</div>
+
+<!-- Password input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="cnfnewpass">Confirm New Password</label>
+  <div class="col-md-6">
+    <input id="cnfnewpass" name="cnfnewpass" type="password" placeholder="Confirm New Password" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton"></label>
+  <div class="col-md-4">
+    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Save</button>
+  </div>
+</div>
+</form>
+<hr>
+
+
+
+<!-- Button -->
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="exprtData"></label>
+  <div class="col-md-8">
+    <button id="exprtData" name="exprtData" class="btn btn-success">Export Data</button>
+    <button id="DeleteAccount" name="DeleteAccount" class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
+  </div>
+</div>
+
+
+
+</fieldset>
+
+
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+</div>
+
+    
+  </body>
+ <script type="text/javascript">
+ function updateEmail(){
+ $.post('/updateEmail',
+		{email: $('#email').val().toString()},
+		function(data)
+		{
+		console.log(data["status"])
+		if(data["status"]=="Success"){
+		
+		swal({
+                      title: "Success!",
+                      text: "You have successfully changed your email!",
+                      type: "success"},function(){
+					  //window.location= "/"
+					  })
+		}
+		})
+ }
+ function updatePassword(){
+ 
+ var _oldPassword = $("#cpass").val().toString()
+ var _newPassword = $("#cpassword").val().toString()
+ var _cnfnewPassword = $("#cnfnewpass").val().toString()
+ if(_newPassword == _cnfnewPassword){
+ $.post('/updateAccount',
+ {	
+	oldPassword: _oldPassword,
+	newPassword: _newPassword
+	
+ },function(data){
+ console.log(data["status"])
+ if(data["status"]=="Success"){
+		swal({
+                      title: "Success!",
+                      text: "You are have successfully changed your Password!",
+                      type: "success"},function(){
+					  //window.location= "/"
+					  })
+		}
+		else
+		{
+		//alert pass didnt change
+		swal({
+                      title: "Oops!",
+                      text: "Something went wrong!",
+                      type: "error"})
+		}
+ })
+ }
+ }
+ function deleteAccount(){
+ swal({
+  title: "Are you sure?",
+  text: "You will not be able to recover this imaginary file!",
+  type: "warning",
+  showCancelButton: true,
+  confirmButtonClass: "btn-danger",
+  confirmButtonText: "Yes, delete it!",
+  cancelButtonText: "No, cancel plx!",
+  closeOnConfirm: false,
+  closeOnCancel: false
+},
+function(isConfirm) {
+  if (isConfirm) {
+	$.post('/deleteAccount',function(data){
+   console.log(data["status"])
+   if(data["status"]=="Success"){
+		//alert account was deleted
+		swal("Deleted!", "Your Account has been deleted.", "success");
+		window.location="/"
+		}
+		else
+		{
+		//something went wrong
+		swal({
+                      title: "Oops!",
+                      text: "Something went wrong!",
+                      type: "error"})
+		}
+ })
+    
+  } else {
+    swal("Cancelled", "Your Account is Safe :)", "error");
+  }
+});
+ 
+ }
+ function exportData(){
+ 
+ }
+ </script>
+</html>

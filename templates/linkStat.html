@@ -21,19 +21,62 @@
   <![endif]-->
 
   <!-- Fav and touch icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.png">
+  
   <link rel="shortcut icon" href="img/favicon.png">
   
 	<script type="text/javascript" src="../static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../static/js/scripts.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 </head>
 
 <body background="../static/img/footer_lodyas.png">
-<div class="container">
+<div class="container-fluid">
+
+<!--navbar starts-->
+	
+	<div class="row">
+		<!--<div class="col-md-12">-->
+			<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+				<div class="navbar-header">
+					<img src="../static/img/mouse_vectorized.png"/>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+
+					</button> <a class="navbar-brand icon-mouse" href="#"></a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					
+					
+					<ul class="nav navbar-nav navbar-right">
+						
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hello, {{userName}}<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="/stats">Stats</a>
+								</li>
+								<li>
+									<a href="/accounts">Account</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="/logout">Logout</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				
+			</nav>
+		<!--</div>-->
+	</div>
+</div>
+	
+	
+	<!--navbar ends-->	
 	<div class="row clearfix">
 		<div class="col-md-2 column">
 		</div>

@@ -31,7 +31,6 @@ class CicksTestCase(unittest.TestCase):
 
     def test_shortURLPage(self):
         rv = self.login('orymeyer', 'password')
-        assert 'LoggedIN' in rv.data
 
         rv = self.app.get('/')
         assert 'Shorten Links Easily' in rv.data
@@ -43,15 +42,23 @@ class CicksTestCase(unittest.TestCase):
 
     def test_short_link_functionality(self):
         rv = self.login('orymeyer', 'password')
-        assert 'LoggedIN' in rv.data
-
         rv = self.app.get('/')
-        assert 'Shorten Links Easily' in rv.data
-
         rv = self.sendbURL("http://www.google.com")
         assert "Success" in rv.data
 
 
+    def passChange(self,op,np):
+        return self.app.post('/updateAccount',data=dict(
+            oldPassword=op,
+            newPassword=np
+        ),headers=[('X-Requested-With', 'XMLHttpRequest')])
+
+    def test_pass_change(self):
+        rv = self.login('orymeyer','password')
+        rv = self.passChange('password','isolation')
+        rv = self.get('/accounts')
+        assert 'success' in rv.data
+        self.app.passChange('isolation','password')
 
 if __name__ == '__main__':
     unittest.main()

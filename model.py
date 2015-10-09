@@ -62,3 +62,12 @@ def showLStats(id):
     #res["time_stamp_created"]= None
     return res
 
+def removesURL(sUrl,userName):
+    res = cn.find_one({"sURL":sUrl})
+    if res["userName"]==userName:
+        cn.remove(res)
+        return True
+    else:
+        return False
+
+
