@@ -46,10 +46,10 @@ def recordClick(sURL):
 
 @app.route('/stats')
 def showStatsPage():
-    checkLoggedIN()
+
     userName = session["userName"]
     kv,num= showStats(userName)
-    return render_template('stats.html', kv=kv,num =num)
+    return render_template('stats.html', kv=kv,num =num,userName=userName)
 
 @app.route('/update/<link>',methods=['POST'])
 def updatelink(link):
@@ -139,7 +139,8 @@ def page():
 
 @app.route('/accounts')
 def settings():
-    return render_template('accounts.html')
+    username = checkLoggedIN()
+    return render_template('accounts.html',userName=username)
 
 
 @app.route('/updateAccount', methods = ['POST'])
@@ -181,5 +182,4 @@ if __name__ == '__main__':
 
 if __name__ =='__main__':
     app.run(debug=True)
-
 '''

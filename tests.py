@@ -22,7 +22,7 @@ class CicksTestCase(unittest.TestCase):
 
     def test_login_logout(self):
 
-        rv = self.login('orymeyer', 'password')
+        rv = self.login('test_acc', 'password')
         assert 'LoggedIN' in rv.data
 
         rv = self.login('adminx', 'default')
@@ -30,7 +30,7 @@ class CicksTestCase(unittest.TestCase):
 
 
     def test_shortURLPage(self):
-        rv = self.login('orymeyer', 'password')
+        rv = self.login('test_acc', 'password')
 
         rv = self.app.get('/')
         assert 'Shorten Links Easily' in rv.data
@@ -41,7 +41,7 @@ class CicksTestCase(unittest.TestCase):
                              headers=[('X-Requested-With', 'XMLHttpRequest')])
 
     def test_short_link_functionality(self):
-        rv = self.login('orymeyer', 'password')
+        rv = self.login('test_acc', 'password')
         rv = self.app.get('/')
         rv = self.sendbURL("http://www.google.com")
         assert "Success" in rv.data
@@ -54,11 +54,11 @@ class CicksTestCase(unittest.TestCase):
         ),headers=[('X-Requested-With', 'XMLHttpRequest')])
 
     def test_pass_change(self):
-        rv = self.login('orymeyer','password')
+        rv = self.login('test_acc','password')
         rv = self.passChange('password','isolation')
         rv = self.app.get('/accounts')
         assert 'success' in rv.data
-        self.app.passChange('isolation','password')
+        self.passChange('isolation','password')
 
 if __name__ == '__main__':
     unittest.main()
