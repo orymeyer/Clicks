@@ -8,5 +8,5 @@ script:
   - python tests.py
 
 addons:
-	code_climate:
-		repo_token: 95424a39c208425339ac35730c125652054dc5454731c7151eff1e27b0759abd
+    code_climate:
+        repo_token: 95424a39c208425339ac35730c125652054dc5454731c7151eff1e27b0759abd
