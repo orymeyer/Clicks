@@ -7,7 +7,7 @@ from flask.ext.bcrypt import Bcrypt
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.config.from_object(__name__)
-app.secret_key ="fgghg"#os.getenv("SECRET")
+app.secret_key =os.getenv("SECRET")
 
 
 
@@ -189,7 +189,7 @@ def exportUserData():
 
 
 
-'''
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
@@ -199,4 +199,4 @@ if __name__ == '__main__':
 
 if __name__ =='__main__':
     app.run(debug=True)
-
+'''
