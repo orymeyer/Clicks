@@ -7,19 +7,16 @@ from flask.ext.bcrypt import Bcrypt
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.config.from_object(__name__)
-app.secret_key =os.getenv("SECRET")
+app.secret_key ="fgghg"#os.getenv("SECRET")
 
 
-def checkLoggedIN():
-    if not session.get('loggedIN')==True:
-        return redirect(url_for('welcomePage'))
-    else:
-        return session["userName"]
 
 
 @app.route('/')
 def getIndexPage():
-    username = checkLoggedIN()
+    if not session.get('loggedIN'):
+        return redirect(url_for('welcomePage'))
+    username = session["userName"]
     return render_template('index.html',userName=username)
 
 @app.route('/welcome')
@@ -61,7 +58,8 @@ def updatelink(link):
 
 @app.route('/stats/l/<link>')
 def showLinkStats(link):
-    checkLoggedIN()
+    if not session.get('loggedIN'):
+        return redirect(url_for('welcomePage'))
     lstats =  showLStats(link)
     if lstats is None:
         return "No Stats yet"
@@ -73,7 +71,9 @@ def showLinkStats(link):
 
 @app.route('/deleteAccount')
 def deleteAccount():
-    userName = checkLoggedIN()
+    if not session.get('loggedIN'):
+        return redirect(url_for('welcomePage'))
+    username = session["userName"]
     if removeUser(userName):
         return jsonify(status="Success")
     else:
@@ -81,7 +81,9 @@ def deleteAccount():
 
 @app.route('/delete/sURL')
 def delete(sURL):
-    username = checkLoggedIN()
+    if not session.get('loggedIN'):
+        return redirect(url_for('welcomePage'))
+    username = session["userName"]
     if removesURL(sURL,username):
         return jsonify(status="Success")
     else:
@@ -139,14 +141,17 @@ def page():
 
 @app.route('/accounts')
 def settings():
-    username = checkLoggedIN()
+    if not session.get('loggedIN'):
+        return redirect(url_for('welcomePage'))
+    username = session["userName"]
     return render_template('accounts.html',userName=username)
 
 
 @app.route('/updateAccount', methods = ['POST'])
 def update():
-    username = checkLoggedIN()
-
+    if not session.get('loggedIN'):
+        return redirect(url_for('welcomePage'))
+    username = session["userName"]
     password = None
 
 
@@ -184,7 +189,7 @@ def exportUserData():
 
 
 
-
+'''
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
@@ -194,4 +199,4 @@ if __name__ == '__main__':
 
 if __name__ =='__main__':
     app.run(debug=True)
-'''
+
