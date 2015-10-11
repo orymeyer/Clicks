@@ -171,7 +171,9 @@ def update():
 
 @app.route('/updateEmail', methods = ['POST'])
 def updateEmail():
-    username = checkLoggedIN()
+    if not session.get('loggedIN'):
+        return redirect(url_for('welcomePage'))
+    username = session["userName"]
     email = request.form['email']
     if updateEmail(username,email):
         return jsonify(status="Success")
@@ -181,7 +183,9 @@ def updateEmail():
 
 @app.route('/export')
 def exportUserData():
-    username = checkLoggedIN()
+    if not session.get('loggedIN'):
+        return redirect(url_for('welcomePage'))
+    username = session["userName"]
     data = exportData(username)
     response = make_response(data)
     response.headers["Content-Disposition"] = "attachment; filename=urls.csv"
