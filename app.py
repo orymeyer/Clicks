@@ -11,7 +11,7 @@ app.secret_key =os.getenv("SECRET")
 
 
 def checkLoggedIN():
-    if not session.get('userName'):
+    if not session.get('loggedIN')==True:
         return redirect(url_for('welcomePage'))
     else:
         return session["userName"]
