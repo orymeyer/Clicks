@@ -82,7 +82,7 @@ def deleteAccount():
 @app.route('/delete/sURL')
 def delete(sURL):
     username = checkLoggedIN()
-    if removesURL(sURL,userName):
+    if removesURL(sURL,username):
         return jsonify(status="Success")
     else:
         return jsonify(status="Failed")
