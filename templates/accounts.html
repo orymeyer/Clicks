@@ -147,7 +147,7 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="exprtData"></label>
   <div class="col-md-8">
-    <button id="exprtData" name="exprtData" class="btn btn-success">Export Data</button>
+    <button id="exprtData" name="exprtData" class="btn btn-success" onclick="exportData()">Export Data</button>
     <button id="DeleteAccount" name="DeleteAccount" class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
   </div>
 </div>
@@ -253,7 +253,7 @@ function(isConfirm) {
  
  }
  function exportData(){
- 
+ window.location="/export"
  }
  </script>
  <script type="text/javascript" src="../static/js/scripts.js"></script>

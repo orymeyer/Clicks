@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request,render_template,send_file,redirect,abort,session,url_for
+from flask import Flask,jsonify,request,render_template,send_file,redirect,abort,session,url_for,make_response
 from model import *
 from user import *
 import random,string
@@ -172,6 +172,18 @@ def updateEmail():
         return jsonify(status="Success")
     else:
         return jsonify(status="Failed")
+
+
+@app.route('/export')
+def exportUserData():
+    username = checkLoggedIN()
+    data = exportData(username)
+    response = make_response(data)
+    response.headers["Content-Disposition"] = "attachment; filename=urls.csv"
+    return response
+
+
+
 
 
 if __name__ == '__main__':

@@ -71,3 +71,10 @@ def removesURL(sUrl,userName):
         return False
 
 
+def exportData(userName):
+    csvs = ""
+    data,num = showStats(userName)
+    for key,value in data.iteritems():
+        csvs+= key+","+value+"\n"
+    return csvs
+
