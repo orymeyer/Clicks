@@ -1,6 +1,7 @@
 from flask import Flask,jsonify,request,render_template,redirect,session,url_for,make_response
 from model import *
 from user import *
+from functools import wraps
 import random,string
 from flask.ext.bcrypt import Bcrypt
 
@@ -11,11 +12,23 @@ app.secret_key =os.getenv("SECRET")
 
 
 
+def login_required(f):
+    @wraps(f)
+    def login_function(*args, **kwargs):
+        if not session.get('loggedIN'):
+            return redirect(url_for('welcomePage',next=request.url))
+        return f(*args, **kwargs)
+    return login_function
+
+
 
 @app.route('/')
+@login_required
 def getIndexPage():
+    '''
     if not session.get('loggedIN'):
         return redirect(url_for('welcomePage'))
+    '''
     username = session["userName"]
 
     return render_template('index.html',userName=username)
@@ -43,6 +56,7 @@ def recordClick(sURL):
 
 
 @app.route('/stats')
+@login_required
 def showStatsPage():
 
     userName = session["userName"]
@@ -58,9 +72,12 @@ def updatelink(link):
 
 
 @app.route('/stats/l/<link>')
+@login_required
 def showLinkStats(link):
+    '''
     if not session.get('loggedIN'):
         return redirect(url_for('welcomePage'))
+    '''
     lstats =  showLStats(link)
     if lstats is None:
         return "No Stats yet"
@@ -71,9 +88,12 @@ def showLinkStats(link):
 
 
 @app.route('/deleteAccount')
+@login_required
 def deleteAccount():
+    '''
     if not session.get('loggedIN'):
         return redirect(url_for('welcomePage'))
+    '''
     username = session["userName"]
     if removeUser(username):
         return jsonify(status="Success")
@@ -81,9 +101,12 @@ def deleteAccount():
         return jsonify(status="Failed")
 
 @app.route('/delete/sURL')
+@login_required
 def delete(sURL):
+    '''
     if not session.get('loggedIN'):
         return redirect(url_for('welcomePage'))
+    '''
     username = session["userName"]
     if removesURL(sURL,username):
         return jsonify(status="Success")
@@ -149,9 +172,12 @@ def settings():
 
 
 @app.route('/updateAccount', methods = ['POST'])
+@login_required
 def update():
+    '''
     if not session.get('loggedIN'):
         return redirect(url_for('welcomePage'))
+    '''
     username = session["userName"]
     password = None
 
@@ -171,9 +197,12 @@ def update():
 
 
 @app.route('/updateEmail', methods = ['POST'])
+@login_required
 def updateEmail():
+    '''
     if not session.get('loggedIN'):
         return redirect(url_for('welcomePage'))
+    '''
     username = session["userName"]
     email = request.form['email']
     if updateEmail(username,email):
@@ -183,9 +212,12 @@ def updateEmail():
 
 
 @app.route('/export')
+@login_required
 def exportUserData():
+    '''
     if not session.get('loggedIN'):
         return redirect(url_for('welcomePage'))
+    '''
     username = session["userName"]
     data = exportData(username)
     response = make_response(data)
@@ -204,4 +236,5 @@ if __name__ == '__main__':
 
 if __name__ =='__main__':
     app.run(debug=True)
+
 '''
