@@ -11,11 +11,17 @@ app.secret_key =os.getenv("SECRET")
 
 
 
+def checkLogin(function):
+    def checklogin():
+        if not session.get('loggedIN'):
+            return redirect(url_for('welcomePage'))
+        function()
+    return checklogin
+
 
 @app.route('/')
+@checkLogin
 def getIndexPage():
-    if not session.get('loggedIN'):
-        return redirect(url_for('welcomePage'))
     username = session["userName"]
     return render_template('index.html',userName=username)
 
@@ -42,8 +48,8 @@ def recordClick(sURL):
 
 
 @app.route('/stats')
+@checkLogin
 def showStatsPage():
-
     userName = session["userName"]
     kv,num= showStats(userName)
     return render_template('stats.html', kv=kv,num =num,userName=userName)
@@ -70,19 +76,17 @@ def showLinkStats(link):
 
 
 @app.route('/deleteAccount')
+@checkLogin
 def deleteAccount():
-    if not session.get('loggedIN'):
-        return redirect(url_for('welcomePage'))
     username = session["userName"]
-    if removeUser(userName):
+    if removeUser(username):
         return jsonify(status="Success")
     else:
         return jsonify(status="Failed")
 
 @app.route('/delete/sURL')
+@checkLogin
 def delete(sURL):
-    if not session.get('loggedIN'):
-        return redirect(url_for('welcomePage'))
     username = session["userName"]
     if removesURL(sURL,username):
         return jsonify(status="Success")
@@ -140,17 +144,16 @@ def page():
     return render_template('page.html')
 
 @app.route('/accounts')
+@checkLogin
 def settings():
-    if not session.get('loggedIN'):
-        return redirect(url_for('welcomePage'))
+
     username = session["userName"]
     return render_template('accounts.html',userName=username)
 
 
 @app.route('/updateAccount', methods = ['POST'])
+@checkLogin
 def update():
-    if not session.get('loggedIN'):
-        return redirect(url_for('welcomePage'))
     username = session["userName"]
     password = None
 
@@ -170,9 +173,8 @@ def update():
 
 
 @app.route('/updateEmail', methods = ['POST'])
+@checkLogin
 def updateEmail():
-    if not session.get('loggedIN'):
-        return redirect(url_for('welcomePage'))
     username = session["userName"]
     email = request.form['email']
     if updateEmail(username,email):
@@ -182,9 +184,8 @@ def updateEmail():
 
 
 @app.route('/export')
+@checkLogin
 def exportUserData():
-    if not session.get('loggedIN'):
-        return redirect(url_for('welcomePage'))
     username = session["userName"]
     data = exportData(username)
     response = make_response(data)
