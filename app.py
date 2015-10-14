@@ -58,9 +58,9 @@ def recordClick(sURL):
 @app.route('/stats')
 @login_required
 def showStatsPage():
-
+    page = request.args.get("page")
     userName = session["userName"]
-    kv,num= showStats(userName)
+    kv,num= showStats(userName,page)
     return render_template('stats.html', kv=kv,num =num,userName=userName)
 
 @app.route('/update/<link>',methods=['POST'])
@@ -164,9 +164,12 @@ def page():
     return render_template('page.html')
 
 @app.route('/accounts')
+@login_required
 def settings():
+    '''
     if not session.get('loggedIN'):
         return redirect(url_for('welcomePage'))
+    '''
     username = session["userName"]
     return render_template('accounts.html',userName=username)
 

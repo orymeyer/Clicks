@@ -13,18 +13,6 @@ def createLink(bURL,id,userName):
     now = time.time()
     cn.insert({"time_stamp_created":now,"sURL":id,"bURL":bURL,"clicked":False,"userName":userName,"clicked_number":0,"clicks":{}})
 
-'''
-def recordLinkClick(id,ip,ua,ref):
-    ts = time.time()
-    now = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    res = cn.find_one({"lid":id})
-    res["useragent"] = ua
-    res["ref"]= ref
-    res["clicked"]=True
-    res["clicked_number"]+=1
-    res["clicks"][str(now)]=ip
-    cn.save(res)
-'''
 
 
 def recordLinkClick(sURL,ip,ua,ref):
@@ -46,10 +34,11 @@ def update(id,details):
         res["details"]=details
         cn.save(res)
 
-def showStats(userName):
+def showStats(userName,page):
     kv = {}
+    skip = int(page) * 10
     num = cn.find({"userName":userName}).count()
-    data =  cn.find({"userName":userName},limit=10)
+    data =  cn.find({"userName":userName},skip=skip,limit=10)
     for links in data:
         kv[links["bURL"]] = links["sURL"]
     return kv,num
