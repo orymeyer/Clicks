@@ -17,8 +17,10 @@ def createLink(bURL,id,userName):
 
 def recordLinkClick(sURL,ip,ua,ref):
     ts = time.time()
+    #print sURL
     now = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    res = cn.find_one({"sURL":sURL})
+    res = cn.find_one({"sURL":"l/"+sURL})
+    #print res
     res["clicked"]=True
     res["clicked_number"]+=1
     res["clicks"][str(now)]={"ip":ip,"ua":ua,"ref":ref}
